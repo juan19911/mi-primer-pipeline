@@ -1,0 +1,24 @@
+name: Mi primer pipeline
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bajar el codigo
+        uses: actions/checkout@v3
+
+      - name: Simular un test
+        run: |
+          echo "Corriendo tests..."
+          echo "Test 1 - OK"
+          echo "Test 2 - OK"
+          echo "Todos los tests pasaron!"
+
+      - name: Ver info del servidor
+        run: |
+          echo "Sistema operativo:"
+          uname -a
+          echo "Usuario actual:"
+          whoami
