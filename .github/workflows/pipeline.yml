@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Bajar el codigo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Simular un test
         run: |
@@ -16,9 +16,11 @@ jobs:
           echo "Test 2 - OK"
           echo "Todos los tests pasaron!"
 
-      - name: Ver info del servidor
+      - name: Paso que falla a proposito
         run: |
-          echo "Sistema operativo:"
-          uname -a
-          echo "Usuario actual:"
-          whoami
+          echo "Este paso va a fallar..."
+          exit 1
+
+      - name: Este paso nunca va a correr
+        run: |
+          echo "Nunca vas a ver esto"
