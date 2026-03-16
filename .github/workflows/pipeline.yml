@@ -5,22 +5,18 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      MI_PASSWORD: ${{ secrets.MI_PASSWORD }}
     steps:
       - name: Bajar el codigo
         uses: actions/checkout@v4
 
-      - name: Simular un test
+      - name: Usar el secret
         run: |
-          echo "Corriendo tests..."
-          echo "Test 1 - OK"
-          echo "Test 2 - OK"
-          echo "Todos los tests pasaron!"
+          echo "Intentando imprimir el secret:"
+          echo $MI_PASSWORD
+          echo "GitHub lo oculta automaticamente!"
 
-      - name: Paso que falla a proposito
+      - name: Intentar robar el secret
         run: |
-          echo "Este paso va a fallar..."
-          exit 1
-
-      - name: Este paso nunca va a correr
-        run: |
-          echo "Nunca vas a ver esto"
+          echo "El secret es: $MI_PASSWORD"
