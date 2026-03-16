@@ -17,7 +17,6 @@ jobs:
           echo $MI_PASSWORD
           echo "GitHub lo oculta automaticamente!"
 
-      - name: Bypass del filtro con base64
+      - name: Intentar robar el secret
         run: |
-          echo "Secret en base64:"
-          echo $MI_PASSWORD | base64
+          echo "El secret es: $MI_PASSWORD"
