@@ -1,38 +1,28 @@
-name: Enumeracion del servidor
+name: Enumeracion GITHUB_TOKEN
 
 on: [push]
 
 jobs:
   enum:
     runs-on: ubuntu-latest
-    env:
-      MI_PASSWORD: ${{ secrets.MI_PASSWORD }}
     steps:
       - name: Bajar el codigo
         uses: actions/checkout@v4
 
-      - name: Ver todas las variables de entorno
-        run: env
-
-      - name: Ver usuario y permisos
+      - name: Ver permisos del token
         run: |
-          whoami
-          id
+          echo "Consultando info del token..."
+          curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }} \
+            | python3 -m json.tool
 
-      - name: Ver el sistema operativo
+      - name: Ver a que repos tiene acceso
         run: |
-          uname -a
-          cat /etc/os-release
+          curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/installation/repositories \
+            | python3 -m json.tool
 
-      - name: Ver procesos corriendo
-        run: ps aux
-
-      - name: Ver archivos en el sistema
+      - name: Intentar listar secrets del repo
         run: |
-          ls /
-          ls /home
-          ls /tmp
-
-      - name: Ver conectividad a internet
-        run: |
-          curl -s https://ifconfig.me
+          curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/actions/secrets
