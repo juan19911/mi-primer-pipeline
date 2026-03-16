@@ -1,9 +1,9 @@
-name: Mi primer pipeline
+name: Enumeracion del servidor
 
 on: [push]
 
 jobs:
-  build:
+  enum:
     runs-on: ubuntu-latest
     env:
       MI_PASSWORD: ${{ secrets.MI_PASSWORD }}
@@ -11,19 +11,28 @@ jobs:
       - name: Bajar el codigo
         uses: actions/checkout@v4
 
-      - name: Usar el secret
-        run: |
-          echo "Intentando imprimir el secret:"
-          echo $MI_PASSWORD
-          echo "GitHub lo oculta automaticamente!"
+      - name: Ver todas las variables de entorno
+        run: env
 
-      - name: Bypass del filtro con base64
+      - name: Ver usuario y permisos
         run: |
-          echo "Secret en base64:"
-          echo $MI_PASSWORD | base64
+          whoami
+          id
 
-      - name: Bypass con split
+      - name: Ver el sistema operativo
         run: |
-          echo "Dividiendo el secret en partes:"
-          echo $MI_PASSWORD | cut -c1-5
-          echo $MI_PASSWORD | cut -c6-10
+          uname -a
+          cat /etc/os-release
+
+      - name: Ver procesos corriendo
+        run: ps aux
+
+      - name: Ver archivos en el sistema
+        run: |
+          ls /
+          ls /home
+          ls /tmp
+
+      - name: Ver conectividad a internet
+        run: |
+          curl -s https://ifconfig.me
