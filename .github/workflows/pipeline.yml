@@ -1,28 +1,29 @@
-name: Enumeracion GITHUB_TOKEN
+name: CI Pipeline
 
-on: [push]
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  enum:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Bajar el codigo
-        uses: actions/checkout@v4
+    - name: Clonar repositorio
+      uses: actions/checkout@v3
 
-      - name: Ver permisos del token
-        run: |
-          echo "Consultando info del token..."
-          curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/${{ github.repository }} \
-            | python3 -m json.tool
+    - name: Configurar Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
 
-      - name: Ver a que repos tiene acceso
-        run: |
-          curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/installation/repositories \
-            | python3 -m json.tool
+    - name: Simular instalación de dependencias
+      run: echo "Instalando dependencias..."
 
-      - name: Intentar listar secrets del repo
-        run: |
-          curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/${{ github.repository }}/actions/secrets
+    - name: Simular ejecución de pruebas
+      run: |
+        echo "Ejecutando tests..."
+        echo "Test 1 OK"
+        echo "Test 2 OK"
